@@ -13,8 +13,8 @@ The goal is to get the ball past the opponent.
 Reaching 10 points wins!!!
 ]]
 
-window_width = 1280
-window_height = 720
+window_width = 800
+window_height = 600
 
 --[[
     Runs when the game first starts up.
@@ -22,10 +22,20 @@ window_height = 720
 
 function love.load()
     love.window.setMode(window_width, window_height, {
-        fullscreen = false
-        resizable = false
+        fullscreen = false,
+        resizable = false,
         vsync = true
 
     })
 end
 
+function love.update(dt)
+
+
+end
+
+function love.draw()
+    love.graphics.printf('HELL-Looo Player!!!', 0, window_height/2-6, window_width, 'center')
+
+
+end
