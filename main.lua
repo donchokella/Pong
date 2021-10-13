@@ -21,6 +21,13 @@ window_height = 600
 ]]
 
 function love.load()
+    smallFont = love.graphics.newFont('font.ttf', 8)
+
+    love.graphics.setFont(smallFont)
+
+
+
+
     love.window.setMode(window_width, window_height, {
         fullscreen = false,
         resizable = false,
