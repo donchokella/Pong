@@ -13,32 +13,47 @@ The goal is to get the ball past the opponent.
 Reaching 10 points wins!!!
 ]]
 
+--[[
+push is a library that will allow us to draw our game at a virtual
+resolution, instead of however large our window is; used to provide
+a more retro aesthetic
+
+ https://github.com/Ulydev/push
+]]
+push = require 'push'
+
 window_width = 800
 window_height = 600
+
+virtual_width = 432
+virtual_height = 243
 
 --[[
     Runs when the game first starts up.
 ]]
 
 function love.load()
-    smallFont = love.graphics.newFont('font.ttf', 8)
+    love.graphics.setDefaultFilter('nearest', 'nearest')
+
+    smallFont = love.graphics.newFont('font.ttf', 30)   -- a "retro-looking" font object
 
     love.graphics.setFont(smallFont)
 
 
+-- initialize the window with virtual resulation
 
-
-    love.window.setMode(window_width, window_height, {
+    push: setupScreen(virtual_width, virtual_height, window_width, window_height, {
         fullscreen = false,
         resizable = false,
         vsync = true
-
     })
 end
 
-function love.update(dt)
 
-
+function love.keypressed(key)
+    if key == 'escape' then     --keys  can be accessed by string name
+        love.event.quit()       -- quit function to terminate the game
+    end
 end
 
 function love.draw()
