@@ -28,14 +28,19 @@ window_height = 600
 virtual_width = 432
 virtual_height = 243
 
+
+paddle_speed = 200      -- speed at which we will move our paddle; multiplied by dt in update
+
 --[[
     Runs when the game first starts up.
 ]]
-
+s
 function love.load()
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
-    smallFont = love.graphics.newFont('font.ttf', 8)   -- a "retro-looking" font object
+    smallFont = love.graphics.newFont('font.ttf', 8)    -- a "retro-looking" font object
+
+    scoreFont = love.graphics.newFont('font.ttf', 32)   -- a larger font to see the score
 
     love.graphics.setFont(smallFont)
 
@@ -47,7 +52,29 @@ function love.load()
         resizable = false,
         vsync = true
     })
+
+    player1Score = 0        -- initialize the score veirables
+    player2Score = 0        -- we're gonna add the score on these
+
+    player1Y = 30                   -- paddle positions on Y axis
+    player2Y = virtual_height - 50  -- they can only move up or down
 end
+
+
+--[[
+    Runs every frame, with "dt" passed in, our delte in seconds since the last
+    frame, which LOVE2D supplies us.
+]]
+function love.update(dt)
+    if love.keyboard.isDown('w') then
+        player1Y = player1Y + -paddle_speed*dt      -- negative paddle speed since the y axis is upside down for the LOVE2D
+    elseif love.keyboard.isDown('s') then
+        player1Y = player1Y + paddle_speed*dt
+    end
+
+
+end
+
 
 
 function love.keypressed(key)
