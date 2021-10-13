@@ -38,6 +38,9 @@ paddle_speed = 200      -- speed at which we will move our paddle; multiplied by
 function love.load()
     love.graphics.setDefaultFilter('nearest', 'nearest')  -- I don't why ???
 
+    math.randomseed(os.time())  -- "seed" to random are always random by using "os.time" 
+                                --which means the number is always increasing thats why different
+
     smallFont = love.graphics.newFont('font.ttf', 8)    -- a "retro-looking" font object
 
     scoreFont = love.graphics.newFont('font.ttf', 32)   -- a larger font to see the score
@@ -45,7 +48,7 @@ function love.load()
     love.graphics.setFont(smallFont)
 
 
--- initialize the window with virtual resulation
+    -- initialize the window with virtual resulation
 
     push:setupScreen(virtual_width, virtual_height, window_width, window_height, {
         fullscreen = false,
@@ -58,6 +61,19 @@ function love.load()
 
     player1Y = 30                   -- paddle positions on Y axis
     player2Y = virtual_height - 50  -- they can only move up or down
+
+    -- velecity and position variables for our ball when play starts
+    ballX = virtual_width/2 - 2
+    ballY = virtual_height/2 - 2
+
+    -- math.random returns a random value between the left and right number
+    ballDX = math.random(2) == 1 and 100 or -100
+    ballDY = math.random(-50, 50)
+
+    -- game state variable used to transition between different parts of the game
+    -- (used for beginning, menus, main game, high score list, etc.)
+    -- we will use this to determine behavior during render and update
+    gameState = 'start'
 end
 
 
@@ -70,15 +86,20 @@ function love.update(dt)
     -- player1 movement
     if love.keyboard.isDown('w') then
         player1Y = player1Y + -paddle_speed*dt      -- negative paddle speed since the y axis is upside down for the LOVE2D
+        player1Y = math.max(0, player1Y + -paddle_speed*dt)     -- we clamp our position between the bounds of the screen
     elseif love.keyboard.isDown('s') then
         player1Y = player1Y + paddle_speed*dt
+        player1Y = math.min(virtual_height - 20, player1Y + paddle_speed*dt)
     end
+
 
     -- player2 movement
     if love.keyboard.isDown('up') then
         player2Y = player2Y + -paddle_speed*dt      -- negative paddle speed since the y axis is upside down for the LOVE2D
+        player2Y = math.max(0, player2Y + -paddle_speed*dt)   
     elseif love.keyboard.isDown('down') then
         player2Y = player2Y + paddle_speed*dt
+        player2Y = math.min(virtual_height - 20, player2Y + paddle_speed*dt)
     end
 
 
