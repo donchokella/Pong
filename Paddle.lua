@@ -13,7 +13,6 @@
 ]]
 
 Paddle = Class{}
-
 --[[
     The 'init' function on our class is called just once, when the object is first created.
     Used to set up all variables in the class and get it redy for use.
@@ -26,7 +25,6 @@ Paddle = Class{}
     and height values, thus serving aws containers for data. In this sense, they are very
     similar to structs in C.
 ]]
-
 function Paddle:init(x, y, width, height)
     self.x = x 
     self.y = y 
@@ -36,13 +34,9 @@ function Paddle:init(x, y, width, height)
 end
 
 function Paddle:update(dt)
-
     -- math.max and math.min are for not to exceed the secreen boundaries
-    --
-
     if self.dy < 0 then
         self.y = math.max(0, self.dy*dt)
-
     else
         self.y = math.min(virtual_height - self.height, self.y + self.dy*dt)
     end
@@ -55,7 +49,6 @@ end
     change the color, one must call `love.graphics.setColor`. As of the
     newest version of LÖVE2D, you can even draw rounded rectangles!
 ]]
-
 function Paddle:render()
     love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
 end
