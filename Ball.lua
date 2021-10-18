@@ -7,6 +7,10 @@
     Represents a ball that will bounce back and forth between 
     paddles and walls until it crosses the left or right border 
     of the screen, earning the opponent a point.
+
+    Note: This class's original owner is Colten Ogden.
+                                cogden@cs50.harvard.edu
+    I'm just trying to learn some game development stuff from his GD50 class.
 ]]
 
 Ball = Class{}
