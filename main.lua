@@ -85,6 +85,45 @@ end
 ]]
 function love.update(dt)
 
+    if gameState == 'play' then
+        -- detect ball collision with paddles, reversing dx if true and slightly increasing it,
+        -- then altering the dy based on the position of collision
+        if ball:collides(player1) then
+            ball.dx = -ball.dx*1.05
+            ball.x = player1.x + 5
+
+            -- keep velocity going in the same direction, but randomize it
+            if ball.dy < 0 then
+                ball.dy = -math.random(10, 150)
+            else
+                ball.dy = math.random(10, 150)
+            end
+        end
+
+        if ball:collides(player2) then
+            ball.dx = -ball.dx*1.05
+            ball.x = player2.x - 4
+
+            -- keep velocity going in the same direction, but randomize it
+            if ball.dy < 0 then
+                ball.dy = -math.random(10, 150)
+            else
+                ball.dy = math.random(10, 150)
+            end
+        end
+        
+        -- detect upper and lower screen boundary colision and reverse if collided
+        if ball.y <= 0 then 
+            ball.y = 0
+            ball.dy = -ball.dy
+        end
+
+        if ball.y >= virtual_height - 4 then
+            ball.y = virtual_height - 4
+            ball.dy = -ball.dy
+        end
+    end
+
     -- player1 movement
     if love.keyboard.isDown('w') then
         player1.dy = -paddle_speed
@@ -103,6 +142,8 @@ function love.update(dt)
         player2.dy = 0
     end
 
+    -- update our ball based on its dx and dy anly if we are in play state;
+    -- scale the velocity by dt so movement is framerate-independent
     if gameState == 'play' then
         ball:update(dt)
     end
@@ -160,6 +201,6 @@ end
 
 function displayFPS()
     love.graphics.setFont(smallFont)
-    love.graphics.setColor(0, 255, 0, 255)
+    love.graphics.setColor(0, 255/255, 0, 255/255)
     love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 10, 10)
 end
