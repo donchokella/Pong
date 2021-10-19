@@ -67,7 +67,7 @@ function love.load()
     -- initialize the window with virtual resulation
     push:setupScreen(virtual_width, virtual_height, window_width, window_height, {
         fullscreen = false,
-        resizable = false,
+        resizable = true,
         vsync = true
     })
 
@@ -86,6 +86,14 @@ function love.load()
     -- (used for beginning, menus, main game, high score list, etc.)
     -- we will use this to determine behavior during render and update
     gameState = 'start'
+end
+
+--[[
+    Called by LÖVE whenever we resize the screen; here, we just to pass ,n the width and height to push 
+    so our virtual resolution can be resized as needed.
+]]
+function love.resize(w, h)
+    push:resize(w, h)
 end
 
 --[[
