@@ -47,6 +47,8 @@ paddle_speed = 200      -- speed at which we will move our paddle; multiplied by
 function love.load()
     love.graphics.setDefaultFilter('nearest', 'nearest')  -- I don't why ???
 
+    love.window.setTitle('Pong Game by donchokella') -- the title of the window
+
     math.randomseed(os.time())  -- "seed" to random are always random by using "os.time" 
                                 --which means the number is always increasing thats why different
 
@@ -150,6 +152,14 @@ function love.draw()
     player1:render()
     player2:render()
     ball:render()
-    
+
+    displayFPS()
+
     push:apply('end')
+end
+
+function displayFPS()
+    love.graphics.setFont(smallFont)
+    love.graphics.setColor(0, 255, 0, 255)
+    love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 10, 10)
 end

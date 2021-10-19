@@ -36,7 +36,7 @@ end
 function Paddle:update(dt)
     -- math.max and math.min are for not to exceed the secreen boundaries
     if self.dy < 0 then
-        self.y = math.max(0, self.dy*dt)
+        self.y = math.max(0, self.y + self.dy*dt)
     else
         self.y = math.min(virtual_height - self.height, self.y + self.dy*dt)
     end
