@@ -55,8 +55,14 @@ function love.load()
     smallFont = love.graphics.newFont('font.ttf', 8)    -- a "retro-looking" font object
     largeFont = love.graphics.newFont('font.ttf', 16)
     scoreFont = love.graphics.newFont('font.ttf', 32)   -- a larger font to see the score
-
     love.graphics.setFont(smallFont)
+
+    sounds = {
+        ['paddle'] = love.audio.newSource('sounds/Paddle.wav', 'static'),
+        ['score'] = love.audio.newSource('sounds/Score.wav', 'static'),
+        ['wall'] = love.audio.newSource('sounds/Wall.wav', 'static')
+    }
+
 
     -- initialize the window with virtual resulation
     push:setupScreen(virtual_width, virtual_height, window_width, window_height, {
@@ -108,6 +114,8 @@ function love.update(dt)
             else
                 ball.dy = math.random(10, 150)
             end
+            sounds['paddle']:play()
+
         end
 
         if ball:collides(player2) then
@@ -120,17 +128,21 @@ function love.update(dt)
             else
                 ball.dy = math.random(10, 150)
             end
+            sounds['paddle']:play()
+
         end
         
         -- detect upper and lower screen boundary colision and reverse if collided
         if ball.y <= 0 then 
             ball.y = 0
             ball.dy = -ball.dy
+            sounds['wall']:play()
         end
 
         if ball.y >= virtual_height - 4 then
             ball.y = virtual_height - 4
             ball.dy = -ball.dy
+            sounds['wall']:play()
         end
     
 
@@ -138,6 +150,7 @@ function love.update(dt)
         if ball.x < 0 then
             servingPlayer = 1
             player2Score = player2Score + 1
+            sounds['score']:play()
             
             -- if we have reached a score of 10, the game is over; 
             -- set the state to done so we can show the victory message
@@ -153,6 +166,8 @@ function love.update(dt)
         if ball.x > virtual_width then
             servingPlayer = 2
             player1Score = player1Score + 1
+            sounds['score']:play()
+
             
             if player1Score == 10 then
                 winningPlayer = 1
@@ -247,7 +262,7 @@ function love.draw()
     elseif gameState == 'done' then
         -- UI messages
         love.graphics.setFont(largeFont)
-        love.graphics.printf('Player ' .. tostring(winningPlayer) .. 'wins!', 0, 10, virtual_width, 'center')
+        love.graphics.printf('Player ' .. tostring(winningPlayer) .. ' wins!', 0, 10, virtual_width, 'center')
     end
         
     player1:render()
